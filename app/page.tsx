@@ -5,16 +5,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Page() {
   const { nama, nomor, ubahNama, ubahNomor } = useDokumenStore();
   const { push } = useRouter();
+  const { toast } = useToast();
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (nama.length === 0 || nomor.length === 0) {
-      return alert("Form harus diisi");
+      return toast({
+        title: "Error",
+        description: "Masukan nomor dokumen dan nama dokumen terlebih dahulu",
+        variant: "destructive",
+      });
     }
 
     return push("/generate");

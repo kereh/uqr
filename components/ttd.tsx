@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { QRCode } from "react-qrcode-logo";
 import { useTtdStore } from "@/stores/ttdStore";
 import { useDokumenStore } from "@/stores/dokumenStore";
+import html2canvas from "html2canvas";
 
 export default function TTD() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -47,6 +48,19 @@ export default function TTD() {
     buatTTD();
   }, []);
 
+  const simpanQr = async () => {
+    if (!qrUrl) return;
+    html2canvas(document.querySelector("#qr") as any).then(
+      async (canvas: any) => {
+        const canvasData = canvas.toDataURL("image/png");
+        const downloadLink = document.createElement("a");
+        downloadLink.download = `QR_${nomor}_${nama}.png`;
+        downloadLink.href = canvasData;
+        downloadLink.click();
+      }
+    );
+  };
+
   return (
     <div className="grid grid-cols-1 gap-4">
       <div className="space-y-3">
@@ -58,7 +72,10 @@ export default function TTD() {
           className="w-full md:max-w-xl"
         />
       </div>
-      <div className="place-self-center space-y-3">
+      <div
+        className="place-self-center text-center space-y-3"
+        onClick={simpanQr}
+      >
         <h1 className="text-center">QRCode</h1>
         <QRCode
           value={qrUrl}
@@ -67,7 +84,7 @@ export default function TTD() {
           logoWidth={75}
           logoHeight={75}
           quietZone={15}
-          size={212}
+          size={313}
           qrStyle="dots"
           id="qr"
           enableCORS={true}
@@ -82,7 +99,9 @@ export default function TTD() {
             *Kode QR Invalid. Klik Simpan
           </p>
         ) : (
-          <p className="text-sm text-center text-green-600">*Kode QR Valid</p>
+          <p className="text-sm text-center text-green-600">
+            *Kode QR Valid, click Kode QR untuk Menyimpan
+          </p>
         )}
       </div>
     </div>
