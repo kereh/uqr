@@ -95,9 +95,7 @@ export default function TTD() {
           ]}
         />
         {!qrUrl ? (
-          <p className="text-sm text-center text-red-600">
-            *Kode QR Invalid. Klik Simpan
-          </p>
+          <p className="text-sm text-center text-red-600">*Kode QR Invalid</p>
         ) : (
           <p className="text-sm text-center text-green-600">
             *Kode QR Valid, click Kode QR untuk Menyimpan
