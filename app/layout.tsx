@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import { EdgeStoreProvider } from "@/lib/edgestore";
+import { Toaster } from "@/components/ui/toaster";
 import Theme from "@/components/theme";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +18,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="container p-4">
         <Theme attribute="class" defaultTheme="dark">
-          {children}
+          <EdgeStoreProvider>{children}</EdgeStoreProvider>
+          <Toaster />
         </Theme>
       </body>
     </html>
